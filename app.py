@@ -1,15 +1,41 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import os
-from model import User, Movie, Genre, fetch_and_store_movies, db
+from database import db
+from model import User, Movie, fetch_and_store_movies
 
 app = Flask(__name__, static_folder='static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'not-set')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('LOCAL_DATABASE_URL', 'sqlite:///db.sqlite3')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize the database with the app
 db.init_app(app)
+
+# Home Page
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/user/<int:user_id>')
+def user_profile(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template('user_profile.html', user=user)
+
+@app.route('/marathon/<int:marathon_id>')
+def marathon_details(marathon_id):
+    # Fetch marathon details from the database
+    marathon = Movie.query.get_or_404(marathon_id)
+    return render_template('marathon_details.html', marathon=marathon)
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        search_query = request.form.get('query')
+        # Perform search in the database, e.g., find marathons matching the query
+        search_results = Movie.query.filter(Movie.title.contains(search_query)).all()
+        return render_template('search_result.html', results=search_results, query=search_query)
+    return render_template('search_result.html', results=[], query="")
 
 @app.route('/fetch_movies', methods=['POST'])
 def fetch_movies():
@@ -22,6 +48,7 @@ def get_movies():
     movies = Movie.query.all()
     movies_list = [{"title": movie.title, "release_year": movie.release_year} for movie in movies]
     return jsonify(movies_list)
+
 
 @app.route('/movie', methods=['POST'])
 def add_movie():
