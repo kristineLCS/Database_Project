@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 import os
 from database import db
 from model import User, Movie, fetch_and_store_movies
@@ -12,10 +12,53 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the database with the app
 db.init_app(app)
 
+user_datastore = {
+    'user': {'password': 'userpassword'}
+}
+
 # Home Page
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = user_datastore.get(username)
+       
+        # Check if the user exists and the password matches
+        if user and user['password'] == password:
+            session['username'] = username
+           
+            # Redirect regular users to the home page
+            return redirect(url_for('home'))
+        else:
+            return "Invalid username or password", 401
+       
+    return render_template('login.html')
+
+
+# Signup Page
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+       
+        # Check if the username is already taken
+        if username in user_datastore:
+            return "Username already exists", 409
+       
+        # Add the new user to the datastore
+        user_datastore[username] = {'password': password, 'is_admin': False}  # Set new user as non-admin
+        session['username'] = username
+        session['is_admin'] = False  # Regular user
+       
+        return redirect(url_for('home'))
+   
+    return render_template('signup.html')
 
 @app.route('/user/<int:user_id>')
 def user_profile(user_id):
@@ -46,7 +89,14 @@ def fetch_movies():
 @app.route('/movies', methods=['GET'])
 def get_movies():
     movies = Movie.query.all()
-    movies_list = [{"title": movie.title, "release_year": movie.release_year} for movie in movies]
+    movies_list = [{
+        "movie_id": movie.movie_id,
+        "title": movie.title, 
+        "release_year": movie.release_year,
+        "genre": movie.genre,
+        "director": movie.plot,
+        "poster_url": movie.poster_url
+        } for movie in movies]
     return jsonify(movies_list)
 
 
