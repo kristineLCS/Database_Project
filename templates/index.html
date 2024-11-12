@@ -7,53 +7,10 @@
 {% block content %}
   <h1 class="header-h1">Welcome to Cordon Remy!</h1>
 
-  <div class="gallery">
-      <div class="breakfastcontainer">
-        <a href="{{ url_for('show_breakfast_recipes') }}">
-          <img src="{{ url_for('static', filename='images/pancakes.png') }}" alt="pancakes" width="400px" height="400px">
-          <p id="breakfastbtn">Breakfast</p>
-        </a>
-    </div>
-
-    <div class="mainscontainer">
-      <a href="{{ url_for('show_mains_recipes') }}">
-        <img src="{{ url_for('static', filename='images/beefbroccoli.png') }}" alt="beef and broccoli" width="400px" height="400px">
-        <p id="mainsbtn">Mains</p>
-      </a>
-    </div>
-
-    <div class="dessertcontainer">
-      <a href="{{ url_for('show_dessert_recipes') }}">
-        <img src="{{ url_for('static', filename='images/redvelvet.png') }}" alt="red velvet cake" width="400px" height="400px">
-        <p id="dessertbtn">Dessert</p>
-      </a>
-    </div>
-  </div>
-
-
-  <div class="latest-recipe">
-    <h3 class="latestrecipe-heading">Latest Recipe</h3>
-    {% if latest_recipe %}
-        <h2>{{ latest_recipe.title }}</h2>
-        <p>{{ latest_recipe.category }}</p>
-        <a href="{{ url_for('recipe_page', recipe_id=latest_recipe.id) }}" class="view-recipes">View Recipe</a>
-    {% else %}
-        <p class="norecipe">No recipes available.</p>
-    {% endif %}
-</div>
-
 {% endblock %}
 
 
 {% block aside %}
-<div class="about">
-  <div class="paragraphs">
-    <h3>Clueless on what to make for dinner? What to bring to a party? What to make to satisfy a sweet or savoury craving?</h3>
-    <p>Welcome to <strong>Cordon Remy</strong> — where culinary magic meets everyday cooking! Whether you're a seasoned chef or just learning to boil water, we've got recipes to tickle your taste buds and spark your creativity.
-      Discover delicious creations, new favorites, and make your kitchen the tastiest place on earth!</p> <br>
-    <p>Keep an eye out for new recipes everyweek!</p>
-  </div>
-</div>
 
 <p class="follow"><strong>Follow me!</strong></p>
 <div class="socials">
