@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2 class="heading">Search Results</h2>
+
+{% if recipes %}
+    <div class="search-container">
+        <ul class="searchresult">
+            {% for recipe in recipes %}
+                <li>
+                    <h3><a href="{{ url_for('search', movie_id=movie['id']) }}" class="result">{{ movie['title'] }}</a></h3>
+                    <p>Category: {{ recipe['category'] }}</p>
+                    <p>Vegan: {{ recipe['vegan'] }}</p>
+                    <p>Servings: {{ recipe['servings'] }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <p>{{ message }}</p>
+{% endif %}
+
+{% endblock %}
