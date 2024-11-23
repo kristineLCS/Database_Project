@@ -1,26 +1,28 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import mapped_column
 import requests
-from database import db
+from database.database import db
 
 
 class User(db.Model):
     __tablename__ = 'users'
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    email = db.Column(db.String(100), unique=True)
-    password_hash = db.Column(db.String(255))
+    user_id = db.mapped_column(db.Integer, primary_key=True)
+    username = db.mapped_column(db.String(50), unique=True)
+    email = db.mapped_column(db.String(100), unique=True)
+    password_hash = db.mapped_column(db.String(255))
 
 class Movie(db.Model):
     __tablename__ = 'movies'
 
-    movie_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    release_year = db.Column(db.Integer)
-    genre = db.Column(db.String(100))
-    director = db.Column(db.String(100))
-    plot = db.Column(db.Text)
-    poster_url = db.Column(db.String(255))
+    movie_id = db.mapped_column(db.Integer, primary_key=True)
+    title = db.mapped_column(db.String(100))
+    release_year = db.mapped_column(db.Integer)
+    genre = db.mapped_column(db.String(100))
+    director = db.mapped_column(db.String(100))
+    plot = db.mapped_column(db.Text)
+    poster_url = db.mapped_column(db.String(255))
 
 def fetch_movie_data(title):
     api_key = "da7690da"
@@ -55,5 +57,5 @@ def fetch_and_store_movies(movie_titles):
 
 class Genre(db.Model):
     __tablename__ = 'genres'
-    genre_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
+    genre_id = db.mapped_column(db.Integer, primary_key=True)
+    name = db.mapped_column(db.String(50), unique=True)
