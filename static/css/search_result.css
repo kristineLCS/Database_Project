@@ -1,0 +1,7 @@
+body{
+    background: url("../images/search_result.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+}

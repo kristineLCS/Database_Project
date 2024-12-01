@@ -1,0 +1,263 @@
+/* Start of Grid */
+@media only screen and (max-width: 600px) {
+    /* CSS rules for screens with a maximum width of 600px */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+nav {
+    grid-area: n;
+}
+header {
+    grid-area: h;
+}
+main {
+    grid-area: m;
+}
+aside {
+    grid-area:a;
+}
+footer {
+    grid-area: f;
+}
+
+.background {
+    flex: 1;
+    display: grid;
+    grid-template:
+    "n "
+    "h "
+    "m"   
+    "a"
+    "f";
+}
+/* End of Grid */
+
+/* Start of Media Query */
+@media (min-width: 38em) {
+    .background {
+       grid-template:
+     " n   n "
+     " h   h "
+     " m   m "
+     " a   a "
+     " f   f "
+     / 50% 50%;
+    }
+}
+ @media (min-width: 65em) {
+    nav ul {
+       display: flex;
+       flex-direction: column;
+       flex-wrap: nowrap;
+       }
+    .background {
+        grid-template:
+       " n   n   n"
+       " n   h   h"
+       " n   m   m"
+       " n   a   a"
+       " f   f   f"
+       / 1fr 1fr 1fr;
+       }
+}
+/* End of Media Query */
+
+html, body {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+
+/* User Profile CSS */
+.marathon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.marathon-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.movie-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+/* Style for watched movies */
+.movie-item.watched {
+    background-color: #c5c5c5; /* Light green to indicate it's watched */
+    border: 1px solid #d8d8d8;
+    transition: background-color 0.3s ease;
+}
+
+.movie-poster img {
+    width: 100%;
+    height: auto;
+}
+
+.movie-details {
+    margin-top: 10px;
+}
+
+
+#new-folder-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.message {
+    color: red; /* Error messages in red */
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.message.success {
+    color: green; /* Success messages in green */
+}
+
+
+.status-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.status-message {
+    background-color: #f8f9fa; /* Light background */
+    border: 1px solid #ccc; /* Border color */
+}
+
+.status-message.success {
+    background-color: #d4edda; /* Green background for success */
+    color: #155724; /* Dark green text */
+}
+
+.status-message.error {
+    background-color: #f8d7da; /* Red background for errors */
+    color: #721c24; /* Dark red text */
+}
+
+/* Style for the modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+#confirm-delete {
+    background-color: red;
+    color: white;
+}
+
+#cancel-delete {
+    background-color: grey;
+    color: white;
+}
+/* User Profile CSS */
+
+
+/* Admin Dashboard */
+.admin-container{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    flex-direction: column;
+}
+
+.h1{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.h2{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.omdb-form-container{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+
+.omdb-form-container{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    flex-direction: column;
+}
+
+.movie-details{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    flex-direction: column;
+}
+
+/* Admin Dashboard */

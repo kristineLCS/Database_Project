@@ -1,27 +1,27 @@
 /* Start of Grid */
 @media only screen and (max-width: 600px) {
     /* CSS rules for screens with a maximum width of 600px */
-    }
-    
-    * {
-        box-sizing: border-box;
-    }
+}
 
-    nav {
-        grid-area: n;
-    }
-    header {
-        grid-area: h;
-    }
-    main {
-        grid-area: m;
-    }
-    aside {
-        grid-area:a;
-    }
-    footer {
-        grid-area: f;
-    }
+* {
+    box-sizing: border-box;
+}
+
+nav {
+    grid-area: n;
+}
+header {
+    grid-area: h;
+}
+main {
+    grid-area: m;
+}
+aside {
+    grid-area:a;
+}
+footer {
+    grid-area: f;
+}
 
 .background {
     flex: 1;
@@ -56,9 +56,9 @@
     .background {
         grid-template:
        " n   n   n"
-       " h   h   h"
-       " m   m   m"
-       " a   a   a"
+       " n   h   h"
+       " n   m   m"
+       " n   a   a"
        " f   f   f"
        / 1fr 1fr 1fr;
        }
@@ -67,12 +67,11 @@
 
 /* Important */
 html, body {
-    background-color: rgb(253, 247, 237);
+    background-color: rgb(255, 255, 255);
     width: 100%;
     height: 100vh;
     padding: 0;
     margin: 0;
-    margin-left: 20px;
 }
 
 body {
@@ -81,36 +80,113 @@ body {
     min-height: 100vh;
 }
 
-/* Start of Header */
-.graphic {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border: none;
-    margin-top: 25px;
-    margin-left: 35px
+.title{
+    margin-left: 60px;
+    margin-top: 60px;
+    margin-right: 0;
+    margin-bottom: 0;
+    border: 0;
 }
 
+/* Start of Index header */
+/* header{
+    display: flex;
+    flex-direction: row;
+}
 
-/* End of Header */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: rgb(0, 0, 0);
+} */
+
+.slideshow-container {
+    /* position: relative; */
+    display: flex;
+    justify-content: center;
+
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    text-align: center;
+    padding: 10px;
+}
+
+.movie-poster img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.movie-details {
+    margin-top: 10px;
+}
+
+/* Navigation buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 100;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+  
+/* Start of Index header */
 
 /* Start of nav */
+.barcontainer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-right: 0px;
+
+}
+
+/* .nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+} */
+
 .searchbar {
     background-color: rgba(255, 255, 255, 0.381);
     border: 0px;
-    text-decoration: none;
+    /* border-bottom: 1px solid rgb(0, 0, 0); */
+    text-decoration: underline 2px rgb(89, 89, 89);
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: row;
     width: 180px;
     height: 30px;
     max-height: 35px;
-    margin-top: 80px;
-    margin-left: 15px;
+    margin-top: 60px;
 }
 
 ::placeholder {
     color: black;
+    font-style: italic;
+
 }
 
 #searchbtn {
@@ -142,8 +218,8 @@ ul {
     list-style-type: none;
     display: flex;
     justify-content: flex-end;
-    flex-direction: row;
-    flex-wrap: wrap;
+    /* flex-direction: row;
+    flex-wrap: nowrap; */
 }
 
 li {
@@ -158,54 +234,61 @@ a {
 .home {
     list-style-type: none;
     position: absolute;
-    top: 130px;
-    left: 15px;
+    top: 140px;
+    left: 55px;
     color: rgb(0, 0, 0);
 }
 
 .login {
     list-style-type: none;
     position: absolute;
-    top: 180px;
-    left: 15px;
+    top: 190px;
+    left: 55px;
     color: rgb(0, 0, 0);
 }
 
 .account{
     list-style-type: none;
     position: absolute;
-    top: 180px;
-    left: 15px;
+    top: 190px;
+    left: 54px;
+    color: rgb(0, 0, 0);
+}
+
+.admin{
+    list-style-type: none;
+    position: absolute;
+    top: 190px;
+    left: 54px;
     color: rgb(0, 0, 0);
 }
 
 .logout {
     list-style-type: none;
-    margin: 0;
-}
+    position: absolute;
+    top: 240px;
+    left: 55px;}
 
 .logout-link {
     list-style-type: none;
-    position: absolute;
-    top: 230px;
-    left: 20px;
     color: rgb(0, 0, 0);
 }
 
 
 .sidebar{
-    position: fixed;
-    top: 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px;
+    margin-left: 120px;
     right: 0;
     height: 100%;
     width: 0;
     z-index: 1;
-    background-color: rgba(212, 223, 250, 0.60);
-    backdrop-filter: blur(10px);
-    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-    transition: 0.5s;
 }
-#hidesidebar {
+
+/* #hidesidebar {
     position: absolute;
     left: 20px;
     margin-top: 15px;
@@ -233,12 +316,18 @@ a {
 }
 #showsidebar button{
     list-style-type: none;
-}
+} */
 
 /* End of nav */
 
 
 /* Start of main */
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 h1, h2, p, li{
     font-family: Helvetica, Arial, sans-serif;
 }
@@ -252,8 +341,82 @@ h1, h2, p, li{
 a {
     color: black;
 }
+/* End of main */
 
-/* Start of main */
+
+/* Search_result css */
+.search_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+
+.search_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+
+.search-result{
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+}
+
+.search-result{
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+}
+
+.poster-container{
+    margin: 10px;
+}
+
+.details-container{
+    margin: 10px;
+}
+
+#auth-message{
+    display: none;
+}
+
+/* Search_result css */
+
+
+
+/* User Profile */
+/* #create-folder-form{
+    display: none;
+} */
+
+/* User Profile */
+
+
+
+
+
+/* Start of aside */
+/* .follow{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.socials{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+} */
+/* End of aside */
+
 
 
 /* Footer */
