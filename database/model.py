@@ -1,59 +1,74 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Integer, String
-from sqlalchemy.orm import mapped_column
-import requests
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from database.database import db
+from flask_login import UserMixin
 
 
-class User(db.Model):
+# Association table for User and Movie
+user_movie = db.Table(
+    'user_movie',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.user_id'), primary_key=True),
+    db.Column('movie_id', db.Integer, db.ForeignKey('movies.movie_id'), primary_key=True)
+)
+
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
-    user_id = db.mapped_column(db.Integer, primary_key=True)
-    username = db.mapped_column(db.String(50), unique=True)
-    email = db.mapped_column(db.String(100), unique=True)
-    password_hash = db.mapped_column(db.String(255))
+    # Relationships
+    movies = db.relationship('Movie', secondary=user_movie, back_populates='users')
+    user_movies = db.relationship('UserMovie', back_populates='user')
+
+
+    # Override get_id() to return the user_id as a string
+    def get_id(self):
+        return str(self.user_id)  # Ensure that this returns a string
+
+
+class UserMovie(db.Model):
+    __tablename__ = 'user_movies'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
+    watched = db.Column(db.Boolean, default=False)
+
+    # Relationships
+    user = db.relationship('User', back_populates='user_movies')
+    movie = db.relationship('Movie', back_populates='user_movies')
+
 
 class Movie(db.Model):
     __tablename__ = 'movies'
 
-    movie_id = db.mapped_column(db.Integer, primary_key=True)
-    title = db.mapped_column(db.String(100))
-    release_year = db.mapped_column(db.Integer)
-    genre = db.mapped_column(db.String(100))
-    director = db.mapped_column(db.String(100))
-    plot = db.mapped_column(db.Text)
-    poster_url = db.mapped_column(db.String(255))
+    movie_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True, nullable=False)
+    release_year = db.Column(db.Integer, nullable=True)
+    genre = db.Column(db.String(100), nullable=True)
+    actors = db.Column(db.String(255))
+    director = db.Column(db.String(100), nullable=True)
+    plot = db.Column(db.Text, nullable=True)
+    poster_url = db.Column(db.String(255), nullable=True)
 
-def fetch_movie_data(title):
-    api_key = "da7690da"
-    url = f"http://www.omdbapi.com/?t={title}&apikey={api_key}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+    # Direct relationship with users
+    users = db.relationship('User', secondary=user_movie, back_populates='movies')
+    user_movies = db.relationship('UserMovie', back_populates='movie')
+
+    def __repr__(self):
+        return f'<Movie {self.title}>'
 
 
-def add_movie_to_db(movie_data):
-    movie = Movie(
-        title=movie_data.get("Title"),
-        release_year=int(movie_data.get("Year", 0)),
-        genre=movie_data.get("Genre"),
-        director=movie_data.get("Director"),
-        plot=movie_data.get("Plot"),
-        poster_url=movie_data.get("Poster")
-    )
-    db.session.add(movie)
-    db.session.commit()
 
-def fetch_and_store_movies(movie_titles):
-    for title in movie_titles:
-        movie_data = fetch_movie_data(title)
-        if movie_data and movie_data.get("Response") == "True":
-            add_movie_to_db(movie_data)
-            print(f"Added movie: {title}")
-        else:
-            print(f"Movie not found: {title}")
+class MarathonMovie(db.Model):
+    __tablename__ = 'marathon_movie'
+
+    id = db.Column(db.Integer, primary_key=True)
+    list_id = db.Column(db.Integer, db.ForeignKey('marathon_list.id'), nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
 
 class Genre(db.Model):
     __tablename__ = 'genres'
