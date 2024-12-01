@@ -1,21 +1,35 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
+
 {% block content %}
-  <h1 class="header-h1">FlickFix</h1>
+
+  <div class="slideshow-container">
+    {% if movies %}
+      {% for movie in movies %}
+        <div class="movie">
+          <h2>{{ movie.title }}</h2>
+          <p>Release Year: {{ movie.release_year }}</p>
+          <p>Actors: {{ movie.actors }}</p>
+          <p>Plot: {{ movie.plot }}</p>
+          <img src="{{ movie.poster_url }}" alt="Poster for {{ movie.title }}" width="150" height="225">
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No movies available.</p>
+    {% endif %}
+
+    <button class="prev" type="button">&#10094;</button>
+    <button class="next" type="button">&#10095;</button>
+
+  </div>
 
 {% endblock %}
 
 
 {% block aside %}
 
-<p class="follow"><strong>Follow me!</strong></p>
-<div class="socials">
-    <a href="https://www.instagram.com/"><img src="{{ url_for('static', filename='images/insta.png') }}" alt="instagram logo" width="15px" height="15px"></a>
-    <a href="https://twitter.com/"><img src="{{ url_for('static', filename='images/x.png') }}" alt="x logo" width="15px" height="13px"></a>
-    <a href="https://www.facebook.com/"><img src="{{ url_for('static', filename='images/fb.png') }}" alt="facebook logo" width="15px" height="15px"></a>
-</div>
 {% endblock %}

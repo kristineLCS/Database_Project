@@ -11,54 +11,72 @@
 
 
   <body>
+
     <div class="background">
-        <header>
-          <div class="graphic">
-            <a href="{{ url_for('home') }}">Placeholder</a>
-          </div>
 
-          <nav>
-            <div class="sidebar" id="mysidebar">
-              <button type="button" id="hidesidebar"><img src="{{ url_for('static', filename='images/close-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button>
+      <nav>
+        <div class="barcontainer">
+          <h1 class="title">FlexFix</h1>
 
-                <form action="{{ url_for('search') }}" method="GET">
-                  <input class="searchbar" type="text" name="query" placeholder="Search..." required>
-                  <button type="submit" id="searchbtn"><img class="searchbtn" src="{{ url_for('static', filename='images/search-btn.png') }}" alt="search button" height="24px" width="24px"></button>
-                </form>
+          <form action="{{ url_for('search') }}" method="POST" class="form">
+            <input class="searchbar" type="text" name="query" placeholder="Search Film,Genre,Actor..." value="{{ query }}" required>
+            <button type="submit" id="searchbtn"><img class="searchbtn" src="{{ url_for('static', filename='images/search-btn.png') }}" alt="search button" height="24px" width="24px"></button>
+          </form>
+        </div>
 
-              <ul class="home-container">
-                <li class="home"><a href="{{ url_for('home') }}">Home</a></li>
+        <div class="sidebar" id="mysidebar">
+          <!-- <button type="button" id="hidesidebar"><img src="{{ url_for('static', filename='images/close-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button> -->
+
+          <ul class="home-container">
+            <li class="home"><a href="{{ url_for('home') }}">Home</a></li>
+          </ul>
+
+          <div class="login-logout">
+            {% if session.get('user_id') %}
+                <ul class="nav-logout">
+                  {% if session.get('is_admin') %}
+                    <!-- Show the Admin link if the user is an admin -->
+                    <li class="admin">
+                      <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+                    </li>
+                  {% else %}
+                    <!-- Show the Account link if the user is not an admin -->
+                    <li class="account">
+                      <a href="{{ url_for('user_profile', user_id=session['user_id']) }}">Account</a>
+                    </li>
+                  {% endif %}
+                  <li class="logout">
+                    <a class="logout-link active" href="{{ url_for('logout') }}">Logout</a>
+                  </li>
+                </ul>
+              {% else %}
+              <ul class="nav-login">
+                <li class="login">
+                  <a class="login-link active" href="{{ url_for('login') }}">Login</a>
+                </li>
               </ul>
+            {% endif %}
+          </div>
+        </div>
 
-              <div class="login-logout">
-                {% if session.get('username') %}
-                  <ul class="nav-logout">
-                    {% if session.get('is_admin') %}
-                      <li class="account">
-                        <a href="{{ url_for('admin_account') }}">Account</a>
-                      </li>
-                    {% endif %}
-                    <li class="logout">
-                      <a class="logout-link active" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                  </ul>
-                {% else %}
-                  <ul class="nav-login">
-                    <li class="login">
-                      <a class="login-link active" href="{{ url_for('login') }}">Login</a>
-                    </li>
-                  </ul>
-                {% endif %}
-              </div>
-            </div>
-          </nav>
-        </header>
+      </nav>
+
+        <!-- <header>
+          {% block header %}
+          {% endblock %}
+        </header> -->
 
 
       <main>
-        <div class="navbar">
-          <button type="submit" id="showsidebar"><img src="{{ url_for('static', filename='images/show-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button>
-        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
 
         {% block content %}
         {% endblock %}
