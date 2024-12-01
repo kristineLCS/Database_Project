@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2 class="heading">Search Results for "{{ query }}"</h2>
+
+{% if results %}
+    <h2>Search results for: "{{ query }}"</h2>
+    <ul class="search-container">
+        <li>
+            {% for movie in results %}
+                <p>{{ movie.title }} ({{ movie.release_year }})</p>
+                <p><strong>Genre:</strong> {{ movie.genre }}</p>
+                <p><strong>Director:</strong> {{ movie.director }}</p>
+                <p><strong>Plot:</strong> {{ movie.plot }}</p>
+                <img src="{{ movie.poster }}" alt="Movie Poster" width="300">
+            {% endfor %}
+        </li>
+    </ul>
+{% else %}
+    <p>No results found for "{{ query }}"</p>
+{% endif %}
+
+
+{% endblock %}

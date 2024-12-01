@@ -1,27 +1,93 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_result.css') }}">
 {% endblock %}
 
 {% block content %}
-<h2 class="heading">Search Results</h2>
+    <div class="search_container">
+        <div class="search_box">
+            <h2 class="heading">Search Results for "{{ query }}"</h2>
 
-{% if recipes %}
-    <div class="search-container">
-        <ul class="searchresult">
-            {% for recipe in recipes %}
-                <li>
-                    <h3><a href="{{ url_for('search', movie_id=movie['id']) }}" class="result">{{ movie['title'] }}</a></h3>
-                    <p>Category: {{ recipe['category'] }}</p>
-                    <p>Vegan: {{ recipe['vegan'] }}</p>
-                    <p>Servings: {{ recipe['servings'] }}</p>
-                </li>
-            {% endfor %}
-        </ul>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <div id="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+
+            {% if results %}
+                <ul>
+                    {% for movie in results %}
+                        <li>
+                            <div class="search-result">
+                                <div class="search-row">
+                                    <div class="poster-container">
+                                        <img src="{{ movie.poster_url }}" alt="Movie Poster" width="300">
+                                        <div class="addtomarathon">
+                                            <form action="{{ url_for('add_to_profile') }}" method="POST" class="add-to-marathon-form">
+                                                <input type="hidden" name="movie_id" value="{{ movie.movie_id }}">
+                                                <button type="submit" class="add-to-marathon-btn" data-authenticated="{{ session.get('user_id') is not none | tojson }}">
+                                                    <img class="add-to-marathon-btn-img" src="{{ url_for('static', filename='images/add-btn.png') }}" alt="add button" height="24px" width="24px">
+                                                </button>
+                                            </form>
+
+                                            {% if not session.get('user_id') %}
+                                            <div class="alert">
+                                                <p id="auth-message" ></p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="details-container">
+                                        <p><strong>Title:</strong> {{ movie.title }} ({{ movie.release_year }})</p>
+
+                                        <!-- Display genres -->
+                                        <p><strong>Genres:</strong>
+                                            {% if movie.genre %}
+                                                {% for genre in movie.genre.split(',') %}
+                                                    <a href="{{ url_for('search', type='genre', query=genre.strip()) }}">{{ genre.strip() }}</a>{% if not loop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <span>No genres available</span>
+                                            {% endif %}
+                                        </p>
+
+                                        <!-- Display actors -->
+                                        <p><strong>Actors:</strong>
+                                            {% if movie.actors %}
+                                                {% for actor in movie.actors.split(',') %}
+                                                    <a href="{{ url_for('search', type='actor', query=actor.strip()) }}">{{ actor.strip() }}</a>{% if not loop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <span>No actors available</span>
+                                            {% endif %}
+                                        </p>
+
+                                        <!-- Display directors -->
+                                        <p><strong>Director:</strong>
+                                            {% if movie.director %}
+                                                <a href="{{ url_for('search', type='director', query=movie.director) }}">{{ movie.director }}</a>
+                                            {% else %}
+                                                <span>No director available</span>
+                                            {% endif %}
+                                        </p>
+
+                                        <p><strong>Plot:</strong> {{ movie.plot }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found for "{{ query }}"</p>
+            {% endif %}
+        </div>
     </div>
-{% else %}
-    <p>{{ message }}</p>
-{% endif %}
-
 {% endblock %}

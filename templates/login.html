@@ -1,1 +1,40 @@
 {% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login-signup.css') }}">
+{% endblock %}
+
+{% block content %}
+<body>
+
+  <main>
+    <!-- <img src="{{ url_for('static', filename='images/background-img.png') }}" alt="" class="background-img" width="400px" height="400px"> -->
+
+    <div class="formcontainer">
+      <div class="formbox">
+        <div class="loginbox">
+          <h1 class="main-h1">Login</h1>
+
+          <form method="post" id="login">
+
+              <input type="text" id="login-username" name="username" placeholder="Enter username" required>
+              <div id="username-error" class="error-message"></div>
+
+              <input type="password" id="login-password" name="password" placeholder="********" required>
+              <div id="password-error" class="error-message"></div>
+
+              <button type="submit" class="submitbtn">Log-in</button>
+
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+
+          </form>
+          <h4 class="signup-disclaimer">Don't have an account? Sign up<a href="{{ url_for('signup') }}" id="here"> here</a>.</h4>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+{% endblock %}

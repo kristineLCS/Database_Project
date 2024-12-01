@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="admin-container">
+    <h1 class="h1">Admin Dashboard</h1>
+
+    <div class="omdb-form-container">
+      <!-- <h2 class="h2">Fetch a Movie from OMDb API</h2> -->
+
+      <form id="omdb-form" action="{{ url_for('fetch_movie_from_omdb') }}" method="POST">
+          <label for="movie-title">Enter Movie Title:</label>
+          <input type="text" id="movie-title" name="movie_title" required>
+          <button type="submit">Search</button>
+      </form>
+    </div>
+
+    {% if movie %}
+      <div id="movie-details">
+        <h2>Movie Details</h2>
+        <img src="{{ movie.Poster }}" alt="Poster for {{ movie.Title }}" width="150" height="225">
+        <p><strong>Title:</strong> {{ movie.Title }}</p>
+        <p><strong>Release Year:</strong> {{ movie.Year }}</p>
+        <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+        <p><strong>Director:</strong> {{ movie.Director }}</p>
+        <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+        <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+
+        <form action="{{ url_for('add_movie_from_omdb') }}" method="POST">
+          <input type="hidden" name="title" value="{{ movie.Title }}">
+          <input type="hidden" name="release_year" value="{{ movie.Year }}">
+          <input type="hidden" name="genre" value="{{ movie.Genre }}">
+          <input type="hidden" name="director" value="{{ movie.Director }}">
+          <input type="hidden" name="actors" value="{{ movie.Actors }}">
+          <input type="hidden" name="plot" value="{{ movie.Plot }}">
+          <input type="hidden" name="poster_url" value="{{ movie.Poster }}">
+          <button type="submit">Add Movie to Database</button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

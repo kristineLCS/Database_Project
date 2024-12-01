@@ -1,1 +1,38 @@
 {% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login-signup.css') }}">
+{% endblock %}
+
+{% block content %}
+  <main>
+    <div class="formcontainer">
+      <div class="formbox">
+        <div class="signupbox">
+          <h1 class="main-h1">Sign-up</h1>
+
+            <form action="/signup" method="post" id="signup">
+                <div class="signupcontainer">
+                    <label for="email"></label>
+                    <input type="text" id="email" name="email" placeholder="Enter email" required>
+                    <div id="email-error">Invalid email address</div>
+
+                    <label for="username"></label>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required>
+
+                    <label for="password"></label>
+                    <input type="password" id="password" name="password" placeholder="********" required>
+                    <div id="password-error" >Password must be 8 characters or more</div>
+
+
+                    <button type="submit" class="submitbtn">Sign-up</button>
+
+                    <div id="form-error" class="error">Please fix the errors before submitting the form.</div>
+                </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
