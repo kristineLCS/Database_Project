@@ -127,7 +127,7 @@ body {
 
 /* Style for watched movies */
 .movie-item.watched {
-    background-color: #c5c5c58d; /* Light green to indicate it's watched */
+    background-color: #c5c5c58d;
     border: 1px solid #d8d8d800;
     transition: background-color 0.3s ease;
 }
@@ -244,7 +244,7 @@ body {
 
 .h1{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-self: center;
 }
 

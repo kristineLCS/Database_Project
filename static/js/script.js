@@ -192,82 +192,85 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Handle the change event on the checkbox to mark as watched/unwatched
-    // Handle the change event on the checkbox to mark as watched/unwatched
     document.querySelectorAll('.watched-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             const movieItem = this.closest('.movie-item');
             const userMovieId = this.getAttribute('data-user-movie-id');
             const isWatched = this.checked;
 
-            // Toggle the watched class
-            movieItem.classList.toggle('watched', isWatched);
+            // Add a console log for debugging
+            console.log(`Checkbox change detected for movie ID: ${userMovieId}, watched status: ${isWatched}`);
 
-            // Send the update to the server
-            fetch('/update_watched_status', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_movie_id: userMovieId,
-                    watched: isWatched
+            // Toggle the watched class
+            if (movieItem) {
+                movieItem.classList.toggle('watched', isWatched);
+
+                // Send the update to the server
+                fetch('/update_watched_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_movie_id: userMovieId,
+                        watched: isWatched
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const statusMessage = document.getElementById('status-message');
-                if (data.success) {
-                    statusMessage.textContent = 'Status updated successfully.';
-                    statusMessage.style.color = 'green';
-                } else {
-                    statusMessage.textContent = 'Failed to update status.';
+                .then(response => response.json())
+                .then(data => {
+                    const statusMessage = document.getElementById('status-message');
+                    if (data.success) {
+                        statusMessage.textContent = 'Status updated successfully.';
+                        statusMessage.style.color = 'green';
+                    } else {
+                        statusMessage.textContent = 'Failed to update status.';
+                        statusMessage.style.color = 'red';
+
+                        // Revert the change in UI if failed
+                        this.checked = !isWatched;
+                        movieItem.classList.toggle('watched', !isWatched);
+                    }
+                    setTimeout(() => {
+                        statusMessage.textContent = '';
+                    }, 3000);
+                })
+                .catch(() => {
+                    const statusMessage = document.getElementById('status-message');
+                    statusMessage.textContent = 'An error occurred. Please try again.';
                     statusMessage.style.color = 'red';
-                    
-                    // Revert the change in UI
+
+                    // Revert the change in UI if failed
                     this.checked = !isWatched;
                     movieItem.classList.toggle('watched', !isWatched);
-                }
-                setTimeout(() => {
-                    statusMessage.textContent = '';
-                }, 3000);
-            })
-            .catch(() => {
-                const statusMessage = document.getElementById('status-message');
-                statusMessage.textContent = 'An error occurred. Please try again.';
-                statusMessage.style.color = 'red';
 
-                // Revert the change in UI
-                this.checked = !isWatched;
-                movieItem.classList.toggle('watched', !isWatched);
-
-                setTimeout(() => {
-                    statusMessage.textContent = '';
-                }, 3000);
-            });
+                    setTimeout(() => {
+                        statusMessage.textContent = '';
+                    }, 3000);
+                });
+            } else {
+                console.error('Movie item not found.');
+            }
         });
     });
 
-
-    // Select the modal and buttons
+    // Confirm button functionality for deleting a movie
     const modal = document.getElementById('confirmation-modal');
     const confirmButton = document.getElementById('confirm-delete');
     const cancelButton = document.getElementById('cancel-delete');
     let movieItemToDelete;
 
-    // Add event listeners to delete buttons
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function() {
-            // Store the movie item to delete
             movieItemToDelete = this.closest('.movie-item');
-            
-            // Show the modal
-            modal.style.display = 'flex';
+            if (movieItemToDelete) {
+                modal.style.display = 'block'; // Ensure modal shows correctly
+            } else {
+                console.error('Movie item not found for deletion.');
+            }
         });
     });
 
-    // Confirm button functionality
     confirmButton.addEventListener('click', function() {
-        // Send request to delete the movie (AJAX request)
         const userMovieId = movieItemToDelete.querySelector('.delete-btn').getAttribute('data-user-movie-id');
 
         fetch('/delete_movie', {
@@ -275,16 +278,13 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                user_movie_id: userMovieId
-            })
+            body: JSON.stringify({ user_movie_id: userMovieId })
         })
         .then(response => response.json())
         .then(data => {
             const statusMessage = document.getElementById('status-message');
             if (data.success) {
-                // Remove the movie element from the DOM
-                movieItemToDelete.remove();
+                movieItemToDelete.remove(); // Remove movie from DOM
                 modal.style.display = 'none';
 
                 statusMessage.textContent = 'Movie deleted successfully.';
@@ -293,14 +293,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusMessage.textContent = 'Failed to delete movie.';
                 statusMessage.style.color = 'red';
             }
-            // Clear the status message after 3 seconds
             setTimeout(() => {
                 statusMessage.textContent = '';
             }, 3000);
+        })
+        .catch(error => {
+            console.error('Error deleting movie:', error);
         });
     });
 
-    // Cancel button functionality
     cancelButton.addEventListener('click', function() {
         modal.style.display = 'none';
     });

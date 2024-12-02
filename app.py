@@ -196,7 +196,6 @@ def update_watched_status():
     user_movie_id = data.get('user_movie_id')
     watched = data.get('watched')
 
-    # Find the UserMovie entry and update the watched status
     user_movie = UserMovie.query.filter_by(id=user_movie_id, user_id=current_user.user_id).first()
     if user_movie:
         user_movie.watched = watched
@@ -205,8 +204,6 @@ def update_watched_status():
     else:
         return jsonify({'success': False, 'message': 'Movie not found or not authorized.'}), 404
 
-
-
 @app.route('/delete_movie', methods=['POST'])
 @login_required
 def delete_movie():
@@ -214,14 +211,12 @@ def delete_movie():
     user_movie_id = data.get('user_movie_id')
 
     user_movie = UserMovie.query.get(user_movie_id)
-
     if user_movie and user_movie.user_id == current_user.user_id:
         db.session.delete(user_movie)
         db.session.commit()
         return jsonify({'success': True})
     else:
-        return jsonify({'success': False}), 400
-
+        return jsonify({'success': False, 'message': 'Movie not found or not authorized.'}), 400
 
 
 # Mark Movie as Watched/Unwatched
@@ -334,8 +329,6 @@ def add_movie_from_omdb():
     db.session.commit()
     flash('Movie added successfully!', 'success')
     return redirect(url_for('admin_dashboard'))
-
-
 
 @app.errorhandler(404)
 def page_not_found(e):
