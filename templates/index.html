@@ -10,12 +10,32 @@
   <div class="slideshow-container">
     {% if movies %}
       {% for movie in movies %}
-        <div class="movie">
-          <h2>{{ movie.title }}</h2>
-          <p>Release Year: {{ movie.release_year }}</p>
-          <p>Actors: {{ movie.actors }}</p>
-          <p>Plot: {{ movie.plot }}</p>
-          <img src="{{ movie.poster_url }}" alt="Poster for {{ movie.title }}" width="150" height="225">
+        <div class="movie-container">
+          <div class="slide">
+            <div class="poster-container">
+              <img src="{{ movie.poster_url }}" alt="Poster for {{ movie.title }}" width="150" height="225">
+
+              <div class="btn-container">
+                <!-- Add-to-Profile Button -->
+                <form method="POST" action="{{ url_for('add_to_profile') }}">
+                  <input type="hidden" name="movie_id" value="{{ movie.movie_id }}">
+                  <button type="submit" class="add-to-marathon-btn" data-authenticated="{{ session.get('user_id') is not none | tojson }}">
+                    <img class="add-to-marathon-btn-img" src="{{ url_for('static', filename='images/add-btn.png') }}" alt="add button" height="26px" width="26px">
+                    Add Movie to Profile
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+            <div class="movie-details">
+              <h2 class="movie-title">{{ movie.title }}</h2>
+              <p>Release Year: {{ movie.release_year }}</p>
+              <p>Genre: {{ movie.genre }}</p>
+              <p>Actors: {{ movie.actors }}</p>
+              <p>Plot: {{ movie.plot }}</p>
+            </div>
+          </div>
         </div>
       {% endfor %}
     {% else %}
@@ -31,5 +51,37 @@
 
 
 {% block aside %}
+  <div class="genre-slideshow">
+    {% for genre, movies in genre_movies.items() %}
+    <h2 class="genre-titles">{{ genre | capitalize }} Movies</h2>
+    <div class="genre-slideshow-container" id="{{ genre }}-slideshow">
+      {% if movies %}
+        {% for movie in movies %}
+          <div class="genre-slide">
+            <img src="{{ movie.poster_url }}" class="genre-poster" alt="Poster for {{ movie.title }}" width="150" height="225">
 
+            <!-- Add-to-Profile Button -->
+            <form method="POST" action="{{ url_for('add_to_profile') }}">
+              <input type="hidden" name="movie_id" value="{{ movie.movie_id }}">
+              <button type="submit" class="add-to-marathon-btn" data-authenticated="{{ session.get('user_id') is not none | tojson }}">
+                <img class="add-to-marathon-btn-img" src="{{ url_for('static', filename='images/add-btn.png') }}" alt="add button" height="24px" width="24px">
+                Add Movie to Profile
+              </button>
+            </form>
+
+            <h2 class="movie-title">{{ movie.title }}</h2>
+            <p>Release Year: {{ movie.release_year }}</p>
+            <p>Genre: {{ movie.genre }}</p>
+            <p>Actors: {{ movie.actors }}</p>
+            <p>Plot: {{ movie.plot }}</p>
+          </div>
+        {% endfor %}
+        <button class="prevbtn" type="button" data-genre="{{ genre | lower }}">&#10094;</button>
+        <button class="nextbtn" type="button" data-genre="{{ genre | lower }}">&#10095;</button>
+      {% else %}
+        <p>No movies available for {{ genre }}.</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
 {% endblock %}

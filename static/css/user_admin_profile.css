@@ -71,6 +71,8 @@ html, body {
     height: 100vh;
     padding: 0;
     margin: 0;
+    display: flex;
+    background-color: rgb(162, 210, 231);
 }
 
 body {
@@ -80,8 +82,16 @@ body {
 }
 
 
-
 /* User Profile CSS */
+.movies-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30px;
+    padding-bottom: 50px;
+}
+
 .marathon{
     display: flex;
     justify-content: center;
@@ -94,12 +104,17 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: 0px;
+    padding-bottom: 50px;
+
 }
 
 .movie-list {
     display: flex;
+    justify-content: center;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    margin-left: 20px;
 }
 
 .movie-item {
@@ -112,8 +127,8 @@ body {
 
 /* Style for watched movies */
 .movie-item.watched {
-    background-color: #c5c5c5; /* Light green to indicate it's watched */
-    border: 1px solid #d8d8d8;
+    background-color: #c5c5c58d; /* Light green to indicate it's watched */
+    border: 1px solid #d8d8d800;
     transition: background-color 0.3s ease;
 }
 

@@ -16,7 +16,7 @@
 
       <nav>
         <div class="barcontainer">
-          <h1 class="title">FlexFix</h1>
+          <h1 class="title"><a href="{{ url_for('home') }}">FlexFix</a></h1>
 
           <form action="{{ url_for('search') }}" method="POST" class="form">
             <input class="searchbar" type="text" name="query" placeholder="Search Film,Genre,Actor..." value="{{ query }}" required>
@@ -25,39 +25,27 @@
         </div>
 
         <div class="sidebar" id="mysidebar">
-          <!-- <button type="button" id="hidesidebar"><img src="{{ url_for('static', filename='images/close-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button> -->
+          <!-- Button to hide the sidebar -->
+          <button type="button" id="hidesidebar">
+            <img src="{{ url_for('static', filename='images/close-sidebar-btn.png') }}" alt="Close Sidebar" height="24px" width="24px">
+          </button>
 
-          <ul class="home-container">
+          <!-- Sidebar Navigation Links -->
+          <ul class="sidebar-nav">
             <li class="home"><a href="{{ url_for('home') }}">Home</a></li>
-          </ul>
-
-          <div class="login-logout">
             {% if session.get('user_id') %}
-                <ul class="nav-logout">
-                  {% if session.get('is_admin') %}
-                    <!-- Show the Admin link if the user is an admin -->
-                    <li class="admin">
-                      <a href="{{ url_for('admin_dashboard') }}">Admin</a>
-                    </li>
-                  {% else %}
-                    <!-- Show the Account link if the user is not an admin -->
-                    <li class="account">
-                      <a href="{{ url_for('user_profile', user_id=session['user_id']) }}">Account</a>
-                    </li>
-                  {% endif %}
-                  <li class="logout">
-                    <a class="logout-link active" href="{{ url_for('logout') }}">Logout</a>
-                  </li>
-                </ul>
+              {% if session.get('is_admin') %}
+                <li class="admin"><a href="{{ url_for('admin_dashboard') }}">Admin</a></li>
               {% else %}
-              <ul class="nav-login">
-                <li class="login">
-                  <a class="login-link active" href="{{ url_for('login') }}">Login</a>
-                </li>
-              </ul>
+                <li class="account"><a href="{{ url_for('user_profile', user_id=session['user_id']) }}">Account</a></li>
+              {% endif %}
+              <li class="logout"><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+              <li class="login"><a href="{{ url_for('login') }}">Login</a></li>
             {% endif %}
-          </div>
+          </ul>
         </div>
+
 
       </nav>
 
@@ -68,6 +56,10 @@
 
 
       <main>
+        <div class="navbar">
+          <button type="submit" id="showsidebar"><img src="{{ url_for('static', filename='images/show-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button>
+        </div>
+
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             <ul class="flash-messages">
@@ -77,6 +69,17 @@
             </ul>
           {% endif %}
         {% endwith %}
+
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %} -->
+
 
         {% block content %}
         {% endblock %}

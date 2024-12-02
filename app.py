@@ -35,7 +35,7 @@ db.init_app(app)
 def home():
     # Get all movies from the database
     movies = Movie.query.all()
-    
+
     # Check if there are at least 8 movies; otherwise, just use all available
     if len(movies) > 8:
         # Select 8 random movies from the list
@@ -44,7 +44,16 @@ def home():
         # If less than 8 movies, show all available movies
         random_movies = movies
 
-    return render_template('index.html', movies=random_movies)
+    # Define genres for grouping
+    genres = ['romance', 'drama', 'action', 'comedy']
+
+    # Create a dictionary to hold filtered movies by genre
+    genre_movies = {}
+    for genre in genres:
+        genre_movies[genre] = [movie for movie in movies if genre.lower() in movie.genre.lower()]
+
+    # Pass both random movies for the main slideshow and genre_movies for genre-specific slideshows
+    return render_template('index.html', movies=random_movies, genre_movies=genre_movies)
 
 
 @app.route('/admin_dashboard')
@@ -252,6 +261,14 @@ def get_movies():
         "plot": movie.plot,
         "poster_url": movie.poster_url
     } for movie in movies])
+
+@app.route('/genre/<genre_name>')
+def show_genre(genre_name):
+    # Query the database for movies of the specified genre
+    movies = Movie.query.filter(Movie.genre.contains(genre_name)).all()
+
+    return render_template('genre.html', genre=genre_name, movies=movies)
+
 
 @app.route('/actor/<string:actor_name>')
 def movies_by_actor(actor_name):

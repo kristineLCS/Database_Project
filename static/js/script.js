@@ -1,32 +1,86 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Home/Index movie slideshow
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('.slide');
-    const showSlide = (index) => {
-        slides.forEach((slide, i) => {
-        slide.style.display = i === index ? 'block' : 'none';
-        });
-    };
+    // Start of sidebar
+    const sidebar = document.getElementById('mysidebar');
+    const showSidebarBtn = document.getElementById('showsidebar');
+    const hideSidebarBtn = document.getElementById('hidesidebar');
     
-    // Show the first slide initially
-    showSlide(slideIndex);
-    
-    // Function to navigate to the next slide
-    document.querySelector('.next').addEventListener('click', () => {
-        slideIndex = (slideIndex + 1) % slides.length;
-        showSlide(slideIndex);
-    });
-    
-    // Function to navigate to the previous slide
-    document.querySelector('.prev').addEventListener('click', () => {
-        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-        showSlide(slideIndex);
+
+    // Show the sidebar
+    showSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        sidebar.style.width = '250px';
+        sidebar.style.display = 'flex';
     });
 
-      
+    // Hide the sidebar
+    hideSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebar.style.width = '0';
+        sidebar.style.display = 'none';
+    });
     
     
-    
+    // Home/Index movie slideshow
+    let mainSlideIndex = 0;
+    const mainSlides = document.querySelectorAll('.slideshow-container .slide');
+
+    const showMainSlide = (index) => {
+        mainSlides.forEach((slide, i) => {
+            slide.style.display = i === index ? 'block' : 'none';
+        });
+    };
+
+    // Show the first slide initially
+    showMainSlide(mainSlideIndex);
+
+    // Navigate to the next slide
+    document.querySelector('.prev').addEventListener('click', () => {
+        mainSlideIndex = (mainSlideIndex - 1 + mainSlides.length) % mainSlides.length;
+        showMainSlide(mainSlideIndex);
+    });
+
+    // Navigate to the previous slide
+    document.querySelector('.next').addEventListener('click', () => {
+        mainSlideIndex = (mainSlideIndex + 1) % mainSlides.length;
+        showMainSlide(mainSlideIndex);
+    });
+
+
+    const genres = ['romance', 'drama', 'action', 'comedy'];
+
+    genres.forEach(genre => {
+        let genreSlideIndex = 0;
+        const genreSlides = document.querySelectorAll(`#${genre}-slideshow .genre-slide`);
+        const prevButton = document.querySelector(`.prevbtn[data-genre="${genre}"]`);
+        const nextButton = document.querySelector(`.nextbtn[data-genre="${genre}"]`);
+
+        if (genreSlides.length === 0) {
+            // Hide navigation buttons if no slides exist
+            if (prevButton) prevButton.style.display = 'none';
+            if (nextButton) nextButton.style.display = 'none';
+            return;
+        }
+
+        function showGenreSlide() {
+            genreSlides.forEach((slide, index) => {
+                slide.style.display = index === genreSlideIndex ? 'block' : 'none';
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            genreSlideIndex = (genreSlideIndex - 1 + genreSlides.length) % genreSlides.length;
+            showGenreSlide();
+        });
+
+        nextButton.addEventListener('click', () => {
+            genreSlideIndex = (genreSlideIndex + 1) % genreSlides.length;
+            showGenreSlide();
+        });
+
+        // Initialize the first slide
+        showGenreSlide();
+    });
+        
     
     // Sign-up validation
     const signupForm = document.getElementById('signup');
@@ -137,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Handle the change event on the checkbox to mark as watched/unwatched
     // Handle the change event on the checkbox to mark as watched/unwatched
     document.querySelectorAll('.watched-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
