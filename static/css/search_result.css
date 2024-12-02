@@ -1,11 +1,19 @@
 html, body {
-    background-color: rgb(255, 255, 255);
     width: 100%;
     height: 100vh;
     padding: 0;
     margin: 0;
+}
+
+body {
+    background: url("../images/background-img.png");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
-    background-color: rgb(162, 210, 231);
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .search-result{
@@ -16,13 +24,13 @@ html, body {
 
 .search-container{
     background-color: rgb(162, 210, 231);
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-a:hover{
-    color: rgb(51, 92, 255);
-    text-decoration: underline;
+.search-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

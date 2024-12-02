@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_admin_profile.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -9,12 +9,11 @@
     <h1 class="h1">Admin Dashboard</h1>
 
     <div class="omdb-form-container">
-      <!-- <h2 class="h2">Fetch a Movie from OMDb API</h2> -->
 
       <form id="omdb-form" action="{{ url_for('fetch_movie_from_omdb') }}" method="POST">
-          <label for="movie-title">Enter Movie Title:</label>
-          <input type="text" id="movie-title" name="movie_title" required>
-          <button type="submit">Search</button>
+          <label for="movie-title" class="entermovietitle">Enter Movie Title:</label>
+          <input type="text" class="movie-form" id="movie-title" name="movie_title" required>
+          <button type="submit" class="search">Search</button>
       </form>
     </div>
 

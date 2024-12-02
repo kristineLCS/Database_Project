@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             const statusMessage = document.getElementById('status-message');
             if (data.success) {
-                movieItemToDelete.remove(); // Remove movie from DOM
+                movieItemToDelete.remove();
                 modal.style.display = 'none';
 
                 statusMessage.textContent = 'Movie deleted successfully.';

@@ -34,7 +34,7 @@ def fetch_movie_data(title):
 
 # Add or update a movie in the database
 def add_or_update_movie(movie_data):
-    from database.model import Movie  # Import here to prevent circular import
+    from database.model import Movie 
     existing_movie = Movie.query.filter_by(title=movie_data["title"]).first()
     if existing_movie:
         # Update existing movie details

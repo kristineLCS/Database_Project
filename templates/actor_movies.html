@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_result.css') }}">
+{% endblock %}
+
 {% block content %}
 <h2 class="heading">Movies Featuring "{{ actor }}"</h2>
 

@@ -49,12 +49,6 @@
 
       </nav>
 
-        <!-- <header>
-          {% block header %}
-          {% endblock %}
-        </header> -->
-
-
       <main>
         <div class="navbar">
           <button type="submit" id="showsidebar"><img src="{{ url_for('static', filename='images/show-sidebar-btn.png') }}" alt="sidebar button" height="24px" width="24px"></button>
@@ -70,17 +64,6 @@
           {% endif %}
         {% endwith %}
 
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class="flashes">
-              {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %} -->
-
-
         {% block content %}
         {% endblock %}
       </main>
@@ -91,7 +74,7 @@
       </aside>
 
       <footer>
-        <p>Last updated: 30/09/24 &copy; 2024</p>
+        <p>Last updated: 02/12/24 &copy; 2024</p>
       </footer>
 
       <script src="{{ url_for('static', filename='js/script.js') }}"></script>

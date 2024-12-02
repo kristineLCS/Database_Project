@@ -33,6 +33,7 @@
                                                 <input type="hidden" name="movie_id" value="{{ movie.movie_id }}">
                                                 <button type="submit" class="add-to-marathon-btn" data-authenticated="{{ session.get('user_id') is not none | tojson }}">
                                                     <img class="add-to-marathon-btn-img" src="{{ url_for('static', filename='images/add-btn.png') }}" alt="add button" height="24px" width="24px">
+                                                    Add Movie to Profile
                                                 </button>
                                             </form>
 

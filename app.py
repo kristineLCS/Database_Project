@@ -62,7 +62,7 @@ def admin_dashboard():
     if not current_user.is_admin:  # Ensure only admins can access
         flash('Unauthorized access.', 'error')
         return redirect(url_for('user_profile'))
-    return render_template('admin_dashboard.html')  # Your admin dashboard page
+    return render_template('admin_dashboard.html')  # admin dashboard page
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -174,7 +174,7 @@ def add_to_profile():
         flash('Movie not found.', 'error')
         return redirect(url_for('search_results'))
 
-    # Check if the movie is already in the user's profile using a query
+    # Check if movie is already in the user's profile using a query
     existing_entry = UserMovie.query.filter_by(user_id=current_user.user_id, movie_id=movie.movie_id).first()
 
     if not existing_entry:
@@ -185,7 +185,7 @@ def add_to_profile():
     else:
         flash('Movie is already in your profile.', 'info')
 
-    return redirect(url_for('user_profile'))  # Redirect to user's profile page
+    return redirect(url_for('user_profile'))
 
 
 
@@ -235,7 +235,7 @@ def toggle_watched(movie_id):
 
 
 
-# In your user_profile route
+# User_profile route
 @app.route('/user_profile')
 @login_required
 def user_profile():
@@ -270,10 +270,6 @@ def movies_by_actor(actor_name):
     movies = Movie.query.filter(Movie.actors.ilike(f'%{actor_name}%')).all()
     return render_template('actor_movies.html', actor=actor_name, movies=movies)
 
-# @app.route('/movie/<int:movie_id>', methods=['GET'])
-# def movie_details(movie_id):
-#     movie = Movie.query.get_or_404(movie_id)
-#     return render_template('movie_details.html', movie=movie)
 
 @app.route('/fetch_movies', methods=['POST'])
 def fetch_movies():

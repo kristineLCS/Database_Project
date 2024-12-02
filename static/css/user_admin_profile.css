@@ -66,16 +66,18 @@ footer {
 /* End of Media Query */
 
 html, body {
-    background-color: rgb(255, 255, 255);
     width: 100%;
     height: 100vh;
     padding: 0;
     margin: 0;
-    display: flex;
-    background-color: rgb(162, 210, 231);
 }
 
 body {
+    background: url("../images/background-img.png");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -157,7 +159,7 @@ body {
 }
 
 .message.success {
-    color: green; /* Success messages in green */
+    color: rgb(0, 111, 0); /* Success messages in green */
 }
 
 
@@ -170,18 +172,18 @@ body {
 }
 
 .status-message {
-    background-color: #f8f9fa; /* Light background */
-    border: 1px solid #ccc; /* Border color */
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
 }
 
 .status-message.success {
-    background-color: #d4edda; /* Green background for success */
-    color: #155724; /* Dark green text */
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .status-message.error {
-    background-color: #f8d7da; /* Red background for errors */
-    color: #721c24; /* Dark red text */
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 /* Style for the modal */
@@ -240,12 +242,16 @@ body {
     justify-content: center;
     align-self: center;
     flex-direction: column;
+    margin: 50px;
+
 }
 
 .h1{
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-self: center;
+    text-align: center;
+    color: #e9182d;
 }
 
 .h2{
@@ -254,25 +260,44 @@ body {
     align-self: center;
 }
 
-.omdb-form-container{
-    display: flex;
-    justify-content: center;
-    align-self: center;
+.movie-form{
+    width: 200px;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+.entermovietitle{
+    font-family: Helvetica, Arial, sans-serif;
 }
 
+.search{
+    font-family: Helvetica, Arial, sans-serif;
+    border: none;
+    background-color: #ffffff;
+}
 
-.omdb-form-container{
+#omdb-form{
     display: flex;
     justify-content: center;
-    align-self: center;
+    align-items: center;
     flex-direction: column;
 }
 
-.admin-movie-details{
+
+.omdb-form-container{
     display: flex;
     justify-content: center;
-    align-self: center;
+    align-items: center;
     flex-direction: column;
+}
+
+#admin-movie-details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
 }
 
 /* Admin Dashboard */

@@ -21,24 +21,21 @@ h4 {
     font-size: 25px;
 }
 
-body{
+body {
     background: url("../images/background-img.png");
+    background-attachment: fixed;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* background-attachment: fixed; */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 
 main{
     margin: 0;
 }
-
-/* .background-img{
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;    
-} */
 
 .formcontainer {
     display: flex;
